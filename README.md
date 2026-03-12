@@ -2,10 +2,6 @@
 
 Search any GitHub user and view their profile, bio, and top repositories sorted by stars.
 
-## Live Demo
-
-[github-explorer-yourname.vercel.app](https://github-explorer-yourname.vercel.app)
-
 ## Built With
 
 - React.js
