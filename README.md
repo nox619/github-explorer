@@ -1,20 +1,87 @@
-<<<<<<< HEAD
-# github-explorer
-=======
-# React + Vite
+# GitHub Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Search any GitHub user and view their profile, bio, and top repositories sorted by stars.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[github-explorer-yourname.vercel.app](https://github-explorer-yourname.vercel.app)
 
-## React Compiler
+## Built With
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React.js
+- TanStack Query (React Query) — data fetching and caching
+- Tailwind CSS — styling
+- GitHub REST API
+- Vite
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
->>>>>>> 7617f70 (initial commit: github explorer with react query)
+- Search any GitHub username
+- Debounced input — waits 500ms after you stop typing before fetching
+- Cached results — revisiting a profile loads instantly from cache
+- Top 10 repositories sorted by stars
+- Responsive layout
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js installed
+- A GitHub account (optional, for higher API rate limits)
+
+### Installation
+```bash
+git clone https://github.com/nox619/github-explorer.git
+cd github-explorer
+npm install
+npm run dev
+```
+
+Open http://localhost:5173
+
+## GitHub API Rate Limits
+
+The GitHub API allows **60 requests per hour** for unauthenticated users. For normal use this is fine, but if you're testing heavily you may hit the limit and see errors.
+
+To increase the limit to **5000 requests per hour**, add a GitHub personal access token:
+
+1. Go to github.com → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
+2. Click **Generate new token**
+3. Don't select any scopes — just scroll down and hit Generate
+4. Copy the token
+
+Create a `.env` file in the project root:
+```
+VITE_GITHUB_TOKEN=your_token_here
+```
+
+Then update `src/api/github.js` to include the token in headers:
+```js
+const headers = {
+  Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`
+}
+```
+
+Add the `Authorization: headers` option to both fetch calls in that file.
+
+> Never commit your `.env` file. It is already in `.gitignore`.
+
+## Project Structure
+```
+src/
+  api/
+    github.js         # GitHub API fetch functions
+  components/
+    SearchBar.jsx     # Controlled search input
+    UserProfile.jsx   # Avatar, bio, follower stats
+    RepoCard.jsx      # Individual repo card
+    RepoList.jsx      # Grid of repo cards
+  hooks/
+    useDebounce.js    # Custom hook — delays value update by 500ms
+  App.jsx             # Main component, query logic
+  main.jsx            # QueryClientProvider setup
+```
+
+## License
+
+MIT
